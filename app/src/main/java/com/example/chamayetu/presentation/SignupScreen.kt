@@ -158,6 +158,22 @@ fun SignupScreen(modifier: Modifier = Modifier) {
                 color = Color.Blue
             )
         }
+        Spacer(modifier = Modifier.height(30.dp))
+        Row{
+            Text(
+                text = "Terms",
+                color = Color.Blue
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+            Text(text = "and")
+            Spacer(modifier = Modifier.width(5.dp))
+            Text(
+                text = "conditions",
+                color = Color.Blue
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+            Text(text = "apply")
+        }
     }
 }
 
