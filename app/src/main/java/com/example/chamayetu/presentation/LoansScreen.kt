@@ -45,7 +45,7 @@ fun LoansScreen(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = "Loan interest is 10% P.A",
+            text = "Loan interest is 10%",
             fontSize = 18.sp
         )
         Spacer(modifier = Modifier.height(20.dp))
