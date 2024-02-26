@@ -13,4 +13,5 @@ sealed class Destinations (val route: String) {
 
     object AppNavigation: Destinations("appNavigation")
     object AppNavigatorScreen: Destinations("App_Navigator_Screen")
+    object AppStartNavigation: Destinations("appStartNavigation")
 }
