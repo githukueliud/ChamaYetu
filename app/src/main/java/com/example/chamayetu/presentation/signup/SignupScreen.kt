@@ -21,11 +21,17 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
@@ -36,18 +42,78 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.chamayetu.R
+import com.example.chamayetu.presentation.navigation.Destinations
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+
+
+@Composable
+fun SignupScreen(
+    navController: NavController,
+    signupViewModel: SignupViewModel = hiltViewModel()
+) {
+
+    val state = signupViewModel.state.collectAsState().value
+    val snackBarHostState = remember {
+        SnackbarHostState()
+    }
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = true) {
+        signupViewModel.eventFlow.collectLatest {event ->
+            when(event) {
+                SignupUiEvents.NavigateToLogin -> {
+                    navController.navigate(Destinations.LoginScreen.route) {
+                        popUpTo(Destinations.SignupScreen.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+                is SignupUiEvents.ShowSnackBar -> {
+                    scope.launch { (event.message) }
+                }
+            }
+        }
+    }
+
+
+
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ){
+        SignupScreenComponent(
+            state = state,
+            onEvent = signupViewModel::onEvent,
+            modifier = Modifier
+        )
+    }
+
+
+
+}
+
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignupScreen(
+fun SignupScreenComponent(
     modifier: Modifier = Modifier,
-    navController: NavController,
-    signupViewModel: SignupViewModel = hiltViewModel(),
-    onEvent: (SignupEvents) -> Unit
+    onEvent: (SignupEvents) -> Unit,
+    state: SignupState
 ) {
-    //val state = signupViewModel.state.
+
     val focusManager = LocalFocusManager.current
+    val snackBarHostState = remember {
+        SnackbarHostState()
+    }
+
+    val scope = rememberCoroutineScope()
+    
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -79,8 +145,8 @@ fun SignupScreen(
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = state.email,
+            onValueChange = { onEvent(SignupEvents.OnEmailChanged(it)) },
             leadingIcon = { Icon(
                 imageVector = Icons.Outlined.Email,
                 contentDescription = null
@@ -90,8 +156,8 @@ fun SignupScreen(
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = state.password,
+            onValueChange = { onEvent(SignupEvents.OnPasswordChanged(it)) },
             leadingIcon = { Icon(
                 imageVector = Icons.Outlined.Lock,
                 contentDescription = null
@@ -145,7 +211,7 @@ fun SignupScreen(
         }
         Spacer(modifier = Modifier.height(20.dp))
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { onEvent(SignupEvents.OnSignupClicked) },
             modifier = Modifier
                 .height(80.dp)
                 .width(250.dp),
@@ -164,7 +230,7 @@ fun SignupScreen(
             ClickableText(
                 text = AnnotatedString("Login", spanStyle = SpanStyle(color = Color.Blue, fontSize = 14.sp)),
 
-                onClick = {}
+                onClick = { onEvent(SignupEvents.OnLoginClicked)}
             )
         }
         Spacer(modifier = Modifier.height(30.dp))
@@ -190,8 +256,9 @@ fun SignupScreen(
 @Preview(showBackground = true)
 @Composable
 fun SignupScreenPreview() {
-    SignupScreen(
-        state = SignupState(),
-        onEvent = {}
+    val context = LocalContext.current
+    SignupScreenComponent(
+        onEvent = {},
+        state = SignupState()
     )
 }
