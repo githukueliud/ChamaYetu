@@ -1,12 +1,10 @@
-package com.example.chamayetu.presentation
+package com.example.chamayetu.presentation.signup
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,8 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.materialIcon
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Button
@@ -27,18 +25,29 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.chamayetu.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignupScreen(modifier: Modifier = Modifier) {
+fun SignupScreen(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    signupViewModel: SignupViewModel = hiltViewModel(),
+    onEvent: (SignupEvents) -> Unit
+) {
+    //val state = signupViewModel.state.
+    val focusManager = LocalFocusManager.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,8 +72,8 @@ fun SignupScreen(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = state.username,
+            onValueChange = { onEvent(SignupEvents.OnUsernameChanged(it)) },
             label = { Text(text = "Name")},
             modifier = Modifier.fillMaxWidth(0.9f)
         )
@@ -152,9 +161,10 @@ fun SignupScreen(modifier: Modifier = Modifier) {
         Row{
             Text(text = "Already have an account?")
             Spacer(modifier = Modifier.width(10.dp))
-            Text(
-                text = "Login",
-                color = Color.Blue
+            ClickableText(
+                text = AnnotatedString("Login", spanStyle = SpanStyle(color = Color.Blue, fontSize = 14.sp)),
+
+                onClick = {}
             )
         }
         Spacer(modifier = Modifier.height(30.dp))
@@ -180,5 +190,8 @@ fun SignupScreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun SignupScreenPreview() {
-    SignupScreen()
+    SignupScreen(
+        state = SignupState(),
+        onEvent = {}
+    )
 }

@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.example.chamayetu.presentation.LoginScreen
-import com.example.chamayetu.presentation.SignupScreen
+import com.example.chamayetu.presentation.signup.SignupScreen
 import com.example.chamayetu.presentation.bottomBar.AppNavigator
 
 
@@ -26,7 +26,7 @@ fun NavGraph(
             startDestination = Destinations.SignupScreen.route
         ) {
             composable(route = Destinations.SignupScreen.route) {
-                SignupScreen()
+                SignupScreen(navController = navController)
             }
             composable(route = Destinations.LoginScreen.route) {
                 LoginScreen()

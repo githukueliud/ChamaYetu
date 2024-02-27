@@ -4,6 +4,7 @@ plugins {
     id("com.google.devtools.ksp")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -54,6 +55,7 @@ android {
 
 dependencies {
 
+    implementation("com.google.firebase:firebase-auth:22.3.1")
     val retrofitVersion = "2.9.0"
     val moshiVersion = "1.13.0"
     val roomVersion = "2.5.2"

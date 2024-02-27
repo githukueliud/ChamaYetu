@@ -21,7 +21,7 @@ class MainViewModel @Inject constructor(
     var splashCondition by mutableStateOf(true)
         private set
 
-    var startDestination by mutableStateOf(Destinations.AppStartNavigation.route)
+    var startDestination by mutableStateOf(Destinations.AppAuthProcess.route)
         private set
 
 
@@ -30,7 +30,7 @@ class MainViewModel @Inject constructor(
             if (shouldStartFromSignupScreen) {
                 startDestination = Destinations.AppAuthProcess.route
             } else {
-                startDestination = Destinations.AppStartNavigation.route
+                startDestination = Destinations.AppAuthProcess.route
             }
             delay(300)
             splashCondition = false
