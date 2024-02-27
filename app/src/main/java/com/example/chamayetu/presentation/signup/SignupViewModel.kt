@@ -82,7 +82,7 @@ class SignupViewModel @Inject constructor(
                 _state.value.email,
                 _state.value.password
             )
-            SignupUiEvents.NavigateToLogin
+
         }
 
     }

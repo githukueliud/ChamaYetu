@@ -211,7 +211,10 @@ fun SignupScreenComponent(
         }
         Spacer(modifier = Modifier.height(20.dp))
         Button(
-            onClick = { onEvent(SignupEvents.OnSignupClicked) },
+            onClick = {
+                onEvent(SignupEvents.OnSignupClicked)
+                SignupUiEvents.NavigateToLogin
+                      },
             modifier = Modifier
                 .height(80.dp)
                 .width(250.dp),
