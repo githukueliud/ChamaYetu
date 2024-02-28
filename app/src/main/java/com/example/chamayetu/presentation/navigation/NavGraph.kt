@@ -5,7 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.example.chamayetu.presentation.LoginScreen
+import com.example.chamayetu.presentation.login.LoginScreen
 import com.example.chamayetu.presentation.signup.SignupScreen
 import com.example.chamayetu.presentation.bottomBar.AppNavigator
 
@@ -29,7 +29,7 @@ fun NavGraph(
                 SignupScreen(navController = navController)
             }
             composable(route = Destinations.LoginScreen.route) {
-                LoginScreen()
+                LoginScreen(navController = navController)
             }
         }
 

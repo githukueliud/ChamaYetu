@@ -1,7 +1,8 @@
-package com.example.chamayetu.presentation
+package com.example.chamayetu.presentation.login
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,21 +21,84 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.chamayetu.R
+import com.example.chamayetu.presentation.navigation.Destinations
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+
+
+@Composable
+fun LoginScreen(
+    navController: NavController,
+    viewModel: LoginViewModel = hiltViewModel()
+) {
+    val state = viewModel.state.collectAsState().value
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest {event ->
+            when(event) {
+                is LoginUIEvents.ShowSnackBar -> {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(event.message)
+                    }
+                }
+                LoginUIEvents.NavigateToHome -> {
+                    navController.navigate(Destinations.AppNavigation.route) {
+                        popUpTo(Destinations.LoginScreen.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+                LoginUIEvents.NavigateToSignup -> {
+                    navController.navigate(Destinations.SignupScreen.route) {
+                        popUpTo(Destinations.LoginScreen.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    LoginScreenComponent(
+        state = state,
+        onEvent = viewModel::onEvent,
+        modifier = Modifier
+    )
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
+fun LoginScreenComponent(
+    modifier: Modifier = Modifier,
+    state: LoginState,
+    onEvent: (LoginEvents) -> Unit
+) {
+    val focusManager = LocalFocusManager.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,8 +125,8 @@ fun LoginScreen(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = state.email,
+            onValueChange = { onEvent(LoginEvents.OnPasswordChanged(it)) },
             leadingIcon = { Icon(
                 imageVector = Icons.Outlined.Email,
                 contentDescription = null
@@ -72,8 +136,8 @@ fun LoginScreen(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = state.password,
+            onValueChange = { onEvent(LoginEvents.OnPasswordChanged(it)) },
             leadingIcon = { Icon(
                 imageVector = Icons.Outlined.Lock,
                 contentDescription = null
@@ -127,7 +191,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
         }
         Spacer(modifier = Modifier.height(20.dp))
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { onEvent(LoginEvents.OnLoginClicked) },
             modifier = Modifier
                 .height(80.dp)
                 .width(250.dp),
@@ -135,7 +199,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White, containerColor = Color(44, 198, 123))
         ) {
             Text(
-                text = "Create Account",
+                text = "Login",
                 fontSize = 22.sp
             )
         }
@@ -145,6 +209,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.width(10.dp))
             Text(
                 text = "Sign up",
+                modifier = Modifier.clickable { onEvent(LoginEvents.OnSignupClicked) },
                 color = Color.Blue
             )
         }
@@ -171,5 +236,5 @@ fun LoginScreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen()
+    LoginScreenComponent(state = LoginState(), onEvent = {})
 }
