@@ -126,7 +126,7 @@ fun LoginScreenComponent(
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
             value = state.email,
-            onValueChange = { onEvent(LoginEvents.OnPasswordChanged(it)) },
+            onValueChange = { onEvent(LoginEvents.OnEmailChanged(it)) },
             leadingIcon = { Icon(
                 imageVector = Icons.Outlined.Email,
                 contentDescription = null
