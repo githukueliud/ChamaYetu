@@ -56,6 +56,7 @@ android {
 dependencies {
 
     implementation("com.google.firebase:firebase-auth:22.3.1")
+    implementation("com.google.firebase:firebase-firestore:24.10.3")
     val retrofitVersion = "2.9.0"
     val moshiVersion = "1.13.0"
     val roomVersion = "2.5.2"

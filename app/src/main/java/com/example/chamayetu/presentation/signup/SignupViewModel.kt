@@ -1,10 +1,19 @@
 package com.example.chamayetu.presentation.signup
 
+import android.app.Application
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chamayetu.data.repository.AuthRepository
+import com.example.chamayetu.data.repository.DatabaseRepositoryImpl
 import com.example.chamayetu.data.repository.FormValidationRepository
+import com.example.chamayetu.presentation.login.LoginState
 import com.example.chamayetu.utils.Resource
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -20,13 +29,17 @@ import javax.inject.Inject
 @HiltViewModel
 class SignupViewModel @Inject constructor(
     private val formValidationRepository: FormValidationRepository,
-    private val authRepository: AuthRepository
-): ViewModel() {
+    private val authRepository: AuthRepository,
+    private val application: Application,
+): AndroidViewModel(application = application) {
     private val _state = MutableStateFlow(SignupState())
     val state = _state.asStateFlow()
 
     private val _eventFlow = MutableSharedFlow<SignupUiEvents>()
     val eventFlow = _eventFlow.asSharedFlow()
+
+
+
 
 
     fun onEvent(event: SignupEvents) {
@@ -43,6 +56,7 @@ class SignupViewModel @Inject constructor(
             }
             SignupEvents.OnSignupClicked -> {
                 submitData()
+                addUserDetails()
             }
             SignupEvents.OnLoginClicked -> {
                 viewModelScope.launch {
@@ -88,7 +102,7 @@ class SignupViewModel @Inject constructor(
     }
 
 
-    fun registerUser(email: String, password: String) {
+    private fun registerUser(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
             delay(3000)
             authRepository.registerUser(email, password).collect{result ->
@@ -113,5 +127,26 @@ class SignupViewModel @Inject constructor(
             }
         }
     }
+
+
+
+     private fun addUserDetails() {
+
+        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+        val dbUsers: CollectionReference = db.collection("Users")
+
+        val users = com.example.chamayetu.data.local.user.User()
+
+         users.email = _state.value.email
+         users.username = _state.value.username
+         users.userId = _state.value.username
+        dbUsers.add(users).addOnSuccessListener {
+            Toast.makeText(application, "User added successfully!", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener { e ->
+            Toast.makeText(application, "Exception: $e", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
 
 }

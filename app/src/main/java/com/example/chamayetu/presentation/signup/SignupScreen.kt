@@ -52,7 +52,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun SignupScreen(
     navController: NavController,
-    signupViewModel: SignupViewModel = hiltViewModel()
+    signupViewModel: SignupViewModel = hiltViewModel(),
 ) {
 
     val state = signupViewModel.state.collectAsState().value

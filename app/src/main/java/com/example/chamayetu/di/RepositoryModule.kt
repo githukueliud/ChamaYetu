@@ -2,6 +2,8 @@ package com.example.chamayetu.di
 
 import com.example.chamayetu.data.repository.AuthRepository
 import com.example.chamayetu.data.repository.AuthRepositoryImpl
+import com.example.chamayetu.data.repository.DatabaseRepository
+import com.example.chamayetu.data.repository.DatabaseRepositoryImpl
 import com.example.chamayetu.data.repository.FormValidationRepository
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
@@ -30,6 +32,13 @@ object RepositoryModule {
     @Singleton
     fun provideAuthRepositoryImpl(firebaseAuth: FirebaseAuth): AuthRepository{
         return AuthRepositoryImpl(firebaseAuth)
+    }
+
+
+    @Provides
+    @Singleton
+    fun providesDatabaseRepositoryImpl(): DatabaseRepository {
+        return DatabaseRepositoryImpl()
     }
 
 
