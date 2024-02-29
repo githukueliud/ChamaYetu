@@ -1,5 +1,8 @@
-package com.example.chamayetu.presentation
+package com.example.chamayetu.presentation.home
 
+import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +19,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,9 +31,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.chamayetu.data.local.user.User
+import com.example.chamayetu.presentation.signup.SignupViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.toObject
+import kotlinx.coroutines.tasks.await
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel()
+) {
+
+
+    val getData = viewModel.state.value
+
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -46,7 +73,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = "Hi Eliud!",
+            text = "Hi ${getData.username}!",
             modifier = Modifier.fillMaxWidth(),
             fontSize = 27.sp,
             fontWeight = FontWeight.Bold
@@ -206,7 +233,9 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         }
         Spacer(modifier = Modifier.height(10.dp))
         Row(
-            modifier = Modifier.fillMaxWidth().padding(start = 30.dp, end = 30.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 30.dp, end = 30.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(text = "Deposit")
@@ -214,6 +243,14 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         }
     }
 }
+
+
+
+
+
+
+
+
 
 
 @Preview(showBackground = true)

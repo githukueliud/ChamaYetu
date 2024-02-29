@@ -16,7 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.chamayetu.R
-import com.example.chamayetu.presentation.HomeScreen
+import com.example.chamayetu.presentation.home.HomeScreen
 import com.example.chamayetu.presentation.bottomBar.bottomBarComponent.BottomNavigation
 import com.example.chamayetu.presentation.bottomBar.bottomBarComponent.BottomNavigationItem
 import com.example.chamayetu.presentation.navigation.Destinations

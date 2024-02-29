@@ -1,7 +1,14 @@
 package com.example.chamayetu.presentation.signup
 
 import android.app.Application
+import android.util.Log
 import android.widget.Toast
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
@@ -11,9 +18,12 @@ import com.example.chamayetu.data.repository.DatabaseRepositoryImpl
 import com.example.chamayetu.data.repository.FormValidationRepository
 import com.example.chamayetu.presentation.login.LoginState
 import com.example.chamayetu.utils.Resource
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.auth.User
+import com.google.firebase.firestore.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -23,6 +33,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 
@@ -30,13 +41,14 @@ import javax.inject.Inject
 class SignupViewModel @Inject constructor(
     private val formValidationRepository: FormValidationRepository,
     private val authRepository: AuthRepository,
-    private val application: Application,
+    private val application: Application
 ): AndroidViewModel(application = application) {
     private val _state = MutableStateFlow(SignupState())
     val state = _state.asStateFlow()
 
     private val _eventFlow = MutableSharedFlow<SignupUiEvents>()
     val eventFlow = _eventFlow.asSharedFlow()
+
 
 
 
@@ -146,6 +158,11 @@ class SignupViewModel @Inject constructor(
             Toast.makeText(application, "Exception: $e", Toast.LENGTH_SHORT).show()
         }
     }
+
+
+
+
+
 
 
 

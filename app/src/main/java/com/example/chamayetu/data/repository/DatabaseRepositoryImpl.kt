@@ -21,4 +21,7 @@ class DatabaseRepositoryImpl: DatabaseRepository {
             Toast.makeText(application, "Exception: $e", Toast.LENGTH_SHORT).show()
         }
     }
+
+
+
 }
