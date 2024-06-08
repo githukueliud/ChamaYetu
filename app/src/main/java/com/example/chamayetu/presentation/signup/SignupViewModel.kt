@@ -66,6 +66,15 @@ class SignupViewModel @Inject constructor(
             is SignupEvents.OnUsernameChanged -> {
                 _state.update { it.copy(username = event.name) }
             }
+            is SignupEvents.OnFirstNameChanged -> {
+                _state.update { it.copy(firstName = event.firstName) }
+            }
+            is SignupEvents.OnLastNameChanged -> {
+                _state.update { it.copy(lastName = event.lastName) }
+            }
+            is SignupEvents.OnPhoneNumberChanged -> {
+                _state.update { it.copy(phoneNumber = event.phoneNumber) }
+            }
             SignupEvents.OnSignupClicked -> {
                 submitData()
                 addUserDetails()

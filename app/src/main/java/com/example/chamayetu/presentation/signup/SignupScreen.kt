@@ -145,13 +145,34 @@ fun SignupScreenComponent(
         )
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
+            value = state.firstName,
+            onValueChange = { onEvent(SignupEvents.OnFirstNameChanged(it)) },
+            label = { Text(text = "First name")},
+            modifier = Modifier.fillMaxWidth(0.9f)
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        OutlinedTextField(
+            value = state.lastName,
+            onValueChange = { onEvent(SignupEvents.OnLastNameChanged(it)) },
+            label = { Text(text = "Last name")},
+            modifier = Modifier.fillMaxWidth(0.9f)
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        OutlinedTextField(
+            value = state.phoneNumber,
+            onValueChange = { onEvent(SignupEvents.OnPhoneNumberChanged(it)) },
+            label = { Text(text = "Phone number")},
+            modifier = Modifier.fillMaxWidth(0.9f)
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        OutlinedTextField(
             value = state.email,
             onValueChange = { onEvent(SignupEvents.OnEmailChanged(it)) },
             leadingIcon = { Icon(
                 imageVector = Icons.Outlined.Email,
                 contentDescription = null
             ) },
-            label = { Text(text = "Email or Phone Number")},
+            label = { Text(text = "Email")},
             modifier = Modifier.fillMaxWidth(0.9f)
         )
         Spacer(modifier = Modifier.height(20.dp))
@@ -166,49 +187,49 @@ fun SignupScreenComponent(
             modifier = Modifier.fillMaxWidth(0.9f)
         )
         Spacer(modifier = Modifier.height(10.dp))
-        Text(
-            text = "or",
-            fontSize = 18.sp
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(
-            text = "Sign up with",
-            fontSize = 25.sp
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        Row {
-            Button(
-                onClick = { /*TODO*/ },
-                modifier = Modifier.height(65.dp),
-                border = BorderStroke(1.dp, Color.LightGray),
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Black)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.icons8_facebook_48),
-                    contentDescription = "Facebook signup",
-                    Modifier.size(40.dp)
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-                Text(text = "Facebook")
-            }
-            Spacer(modifier = Modifier.width(30.dp))
-            Button(
-                onClick = { /*TODO*/ },
-                modifier = Modifier.height(65.dp),
-                border = BorderStroke(1.dp, Color.LightGray),
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Black)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.icons8_google_48),
-                    contentDescription = "Google signup",
-                    Modifier.size(40.dp)
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-                Text(text = "Google")
-            }
-        }
+//        Text(
+//            text = "or",
+//            fontSize = 18.sp
+//        )
+//        Spacer(modifier = Modifier.height(10.dp))
+//        Text(
+//            text = "Sign up with",
+//            fontSize = 25.sp
+//        )
+//        Spacer(modifier = Modifier.height(20.dp))
+//        Row {
+//            Button(
+//                onClick = { /*TODO*/ },
+//                modifier = Modifier.height(65.dp),
+//                border = BorderStroke(1.dp, Color.LightGray),
+//                shape = RoundedCornerShape(8.dp),
+//                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Black)
+//            ) {
+//                Image(
+//                    painter = painterResource(id = R.drawable.icons8_facebook_48),
+//                    contentDescription = "Facebook signup",
+//                    Modifier.size(40.dp)
+//                )
+//                Spacer(modifier = Modifier.width(5.dp))
+//                Text(text = "Facebook")
+//            }
+//            Spacer(modifier = Modifier.width(30.dp))
+//            Button(
+//                onClick = { /*TODO*/ },
+//                modifier = Modifier.height(65.dp),
+//                border = BorderStroke(1.dp, Color.LightGray),
+//                shape = RoundedCornerShape(8.dp),
+//                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Black)
+//            ) {
+//                Image(
+//                    painter = painterResource(id = R.drawable.icons8_google_48),
+//                    contentDescription = "Google signup",
+//                    Modifier.size(40.dp)
+//                )
+//                Spacer(modifier = Modifier.width(5.dp))
+//                Text(text = "Google")
+//            }
+//        }
         Spacer(modifier = Modifier.height(20.dp))
         Button(
             onClick = {

@@ -146,49 +146,49 @@ fun LoginScreenComponent(
             modifier = Modifier.fillMaxWidth(0.9f)
         )
         Spacer(modifier = Modifier.height(30.dp))
-        Text(
-            text = "Or",
-            fontSize = 20.sp
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(
-            text = "Continue with",
-            fontSize = 20.sp
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        Row {
-            Button(
-                onClick = { /*TODO*/ },
-                modifier = Modifier.height(65.dp),
-                border = BorderStroke(1.dp, Color.LightGray),
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Black)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.icons8_facebook_48),
-                    contentDescription = "Facebook signup",
-                    Modifier.size(40.dp)
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-                Text(text = "Facebook")
-            }
-            Spacer(modifier = Modifier.width(30.dp))
-            Button(
-                onClick = { /*TODO*/ },
-                modifier = Modifier.height(65.dp),
-                border = BorderStroke(1.dp, Color.LightGray),
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Black)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.icons8_google_48),
-                    contentDescription = "Google signup",
-                    Modifier.size(40.dp)
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-                Text(text = "Google")
-            }
-        }
+//        Text(
+//            text = "Or",
+//            fontSize = 20.sp
+//        )
+//        Spacer(modifier = Modifier.height(10.dp))
+//        Text(
+//            text = "Continue with",
+//            fontSize = 20.sp
+//        )
+//        Spacer(modifier = Modifier.height(20.dp))
+//        Row {
+//            Button(
+//                onClick = { /*TODO*/ },
+//                modifier = Modifier.height(65.dp),
+//                border = BorderStroke(1.dp, Color.LightGray),
+//                shape = RoundedCornerShape(8.dp),
+//                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Black)
+//            ) {
+//                Image(
+//                    painter = painterResource(id = R.drawable.icons8_facebook_48),
+//                    contentDescription = "Facebook signup",
+//                    Modifier.size(40.dp)
+//                )
+//                Spacer(modifier = Modifier.width(5.dp))
+//                Text(text = "Facebook")
+//            }
+//            Spacer(modifier = Modifier.width(30.dp))
+//            Button(
+//                onClick = { /*TODO*/ },
+//                modifier = Modifier.height(65.dp),
+//                border = BorderStroke(1.dp, Color.LightGray),
+//                shape = RoundedCornerShape(8.dp),
+//                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Black)
+//            ) {
+//                Image(
+//                    painter = painterResource(id = R.drawable.icons8_google_48),
+//                    contentDescription = "Google signup",
+//                    Modifier.size(40.dp)
+//                )
+//                Spacer(modifier = Modifier.width(5.dp))
+//                Text(text = "Google")
+//            }
+//        }
         Spacer(modifier = Modifier.height(20.dp))
         Button(
             onClick = { onEvent(LoginEvents.OnLoginClicked) },

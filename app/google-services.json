@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1043650175111",
+    "project_id": "chamayetu-574d8",
+    "storage_bucket": "chamayetu-574d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1043650175111:android:32e8614eec9804885e1822",
+        "android_client_info": {
+          "package_name": "com.example.chamayetu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBMaUDPwhCa7fg5ck1lsW_-D8vyvGDeDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
