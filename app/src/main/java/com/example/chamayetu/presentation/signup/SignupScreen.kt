@@ -125,46 +125,46 @@ fun SignupScreenComponent(
             fontSize = 30.sp,
             fontWeight = FontWeight.SemiBold
         )
-        Spacer(modifier =Modifier.height(20.dp))
+        Spacer(modifier =Modifier.height(10.dp))
         Text(
             text = "Every coin counts",
             fontSize = 22.sp,
             color = Color.Green
         )
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Text(
             text = "Sign up here",
             fontSize = 20.sp
         )
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
             value = state.username,
             onValueChange = { onEvent(SignupEvents.OnUsernameChanged(it)) },
             label = { Text(text = "Name")},
             modifier = Modifier.fillMaxWidth(0.9f)
         )
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
             value = state.firstName,
             onValueChange = { onEvent(SignupEvents.OnFirstNameChanged(it)) },
             label = { Text(text = "First name")},
             modifier = Modifier.fillMaxWidth(0.9f)
         )
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
             value = state.lastName,
             onValueChange = { onEvent(SignupEvents.OnLastNameChanged(it)) },
             label = { Text(text = "Last name")},
             modifier = Modifier.fillMaxWidth(0.9f)
         )
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
             value = state.phoneNumber,
             onValueChange = { onEvent(SignupEvents.OnPhoneNumberChanged(it)) },
             label = { Text(text = "Phone number")},
             modifier = Modifier.fillMaxWidth(0.9f)
         )
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
             value = state.email,
             onValueChange = { onEvent(SignupEvents.OnEmailChanged(it)) },
@@ -175,7 +175,7 @@ fun SignupScreenComponent(
             label = { Text(text = "Email")},
             modifier = Modifier.fillMaxWidth(0.9f)
         )
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
             value = state.password,
             onValueChange = { onEvent(SignupEvents.OnPasswordChanged(it)) },
@@ -230,7 +230,7 @@ fun SignupScreenComponent(
 //                Text(text = "Google")
 //            }
 //        }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(15.dp))
         Button(
             onClick = {
                 onEvent(SignupEvents.OnSignupClicked)
@@ -247,7 +247,7 @@ fun SignupScreenComponent(
                 fontSize = 22.sp
             )
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Row{
             Text(text = "Already have an account?")
             Spacer(modifier = Modifier.width(10.dp))
@@ -257,7 +257,7 @@ fun SignupScreenComponent(
                 onClick = { onEvent(SignupEvents.OnLoginClicked)}
             )
         }
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(15.dp))
         Row{
             Text(
                 text = "Terms",
