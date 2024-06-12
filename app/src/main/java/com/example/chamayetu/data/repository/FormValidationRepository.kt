@@ -36,6 +36,49 @@ class FormValidationRepository {
         )
     }
 
+    fun validateFirstname(firstname: String): ValidationResult{
+        if (firstname.isBlank()) {
+            return ValidationResult(
+                successful = false,
+                message = "Please enter your first name"
+            )
+        }
+        return ValidationResult(
+            successful = true
+        )
+    }
+
+
+
+    fun validateLastname(lastname: String): ValidationResult{
+        if (lastname.isBlank()) {
+            return ValidationResult(
+                successful = false,
+                message = "Please enter your first name"
+            )
+        }
+        return ValidationResult(
+            successful = true
+        )
+    }
+
+
+
+
+    fun validatePhoneNumber(phoneNumber: String): ValidationResult{
+        if (phoneNumber.isBlank()) {
+            return ValidationResult(
+                successful = false,
+                message = "Please enter your first name"
+            )
+        }
+        return ValidationResult(
+            successful = true
+        )
+    }
+
+
+
     fun validatePassword(password: String): ValidationResult {
         if (password.length < 8) {
             return ValidationResult(

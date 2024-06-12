@@ -11,6 +11,7 @@ sealed interface SignupEvents {
 
     data class OnPhoneNumberChanged(val phoneNumber: String): SignupEvents
 
+
     object OnSignupClicked: SignupEvents
     object OnLoginClicked: SignupEvents
 }

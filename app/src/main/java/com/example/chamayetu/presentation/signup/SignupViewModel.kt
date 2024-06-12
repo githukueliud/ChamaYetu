@@ -13,6 +13,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.chamayetu.data.model.MyUser
+import com.example.chamayetu.data.network.ApiRepository
 import com.example.chamayetu.data.repository.AuthRepository
 import com.example.chamayetu.data.repository.DatabaseRepositoryImpl
 import com.example.chamayetu.data.repository.FormValidationRepository
@@ -40,7 +42,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignupViewModel @Inject constructor(
     private val formValidationRepository: FormValidationRepository,
-    private val authRepository: AuthRepository,
+    private val apiRepository: ApiRepository,
     private val application: Application
 ): AndroidViewModel(application = application) {
     private val _state = MutableStateFlow(SignupState())
@@ -51,6 +53,15 @@ class SignupViewModel @Inject constructor(
 
 
 
+
+    val myUser: MyUser =  MyUser(
+        email = _state.value.email,
+        password = _state.value.password,
+        firstname = _state.value.firstName,
+        username = _state.value.username,
+        lastname = _state.value.lastName,
+        phoneNumber = _state.value.phoneNumber
+    )
 
 
 
@@ -94,11 +105,18 @@ class SignupViewModel @Inject constructor(
         val usernameResult = formValidationRepository.validateUsername(_state.value.username)
         val emailResult = formValidationRepository.validateEmail(_state.value.email)
         val passwordResult = formValidationRepository.validatePassword(_state.value.password)
+        val firstnameResult = formValidationRepository.validateFirstname(_state.value.firstName)
+        val lastnameResult = formValidationRepository.validateLastname(_state.value.lastName)
+        val phoneNumberResult = formValidationRepository.validatePhoneNumber(_state.value.phoneNumber)
+
 
         val hasError = listOf(
             usernameResult,
             emailResult,
-            passwordResult
+            passwordResult,
+            firstnameResult,
+            lastnameResult,
+            phoneNumberResult
         ).any{ !it.successful }
 
 
@@ -107,15 +125,17 @@ class SignupViewModel @Inject constructor(
                 it.copy(
                     usernameError = usernameResult.message,
                     emailError = emailResult.message,
-                    passwordError = passwordResult.message
+                    passwordError = passwordResult.message,
+                    phoneNumberError = phoneNumberResult.message,
+                    lastNameError = lastnameResult.message,
+                    firstNameError = firstnameResult.message
                 )
             }
             return
         } else {
             //handle the sign up request
             registerUser(
-                _state.value.email,
-                _state.value.password
+                myUser
             )
 
         }
@@ -123,29 +143,13 @@ class SignupViewModel @Inject constructor(
     }
 
 
-    private fun registerUser(email: String, password: String) {
+    private fun registerUser(
+        myUser: MyUser
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
+
             delay(3000)
-            authRepository.registerUser(email, password).collect{result ->
-                when(result) {
-                    is Resource.Success -> {
-                        delay(3000)
-                        _state.update { it.copy(loading = false) }
-                        _eventFlow.emit(SignupUiEvents.ShowSnackBar("Account Created"))
-                        delay(1500)
-                        _eventFlow.emit(SignupUiEvents.NavigateToLogin)
-                    }
-
-                    is Resource.Error -> {
-                        _state.update { it.copy(loading = false) }
-                        _eventFlow.emit(SignupUiEvents.ShowSnackBar("An error occurred"))
-                    }
-
-                    is Resource.Loading -> {
-                        _state.update { it.copy(loading = true) }
-                    }
-                }
-            }
+            apiRepository.registerUser(myUser)
         }
     }
 
@@ -153,19 +157,8 @@ class SignupViewModel @Inject constructor(
 
      private fun addUserDetails() {
 
-        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-        val dbUsers: CollectionReference = db.collection("Users")
 
-        val users = com.example.chamayetu.data.local.user.User()
 
-         users.email = _state.value.email
-         users.username = _state.value.username
-         users.userId = _state.value.username
-        dbUsers.add(users).addOnSuccessListener {
-            Toast.makeText(application, "User added successfully!", Toast.LENGTH_SHORT).show()
-        }.addOnFailureListener { e ->
-            Toast.makeText(application, "Exception: $e", Toast.LENGTH_SHORT).show()
-        }
     }
 
 
