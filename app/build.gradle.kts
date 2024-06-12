@@ -110,6 +110,10 @@ dependencies {
     implementation ("com.squareup.moshi:moshi:$moshiVersion")
     implementation ("com.squareup.moshi:moshi-kotlin:$moshiVersion")
 
+    // https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-gson
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+
+
     // room dependencies
     implementation ("androidx.room:room-runtime:$roomVersion")
     implementation ("androidx.room:room-ktx:$roomVersion")
