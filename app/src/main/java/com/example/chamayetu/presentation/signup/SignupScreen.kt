@@ -1,7 +1,5 @@
 package com.example.chamayetu.presentation.signup
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -33,7 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -42,8 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import com.example.chamayetu.R
+import com.example.chamayetu.data.model.MyUser
 import com.example.chamayetu.presentation.navigation.Destinations
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -86,7 +81,8 @@ fun SignupScreen(
         SignupScreenComponent(
             state = state,
             onEvent = signupViewModel::onEvent,
-            modifier = Modifier
+            modifier = Modifier,
+            viewModel = signupViewModel
         )
     }
 
@@ -102,7 +98,8 @@ fun SignupScreen(
 fun SignupScreenComponent(
     modifier: Modifier = Modifier,
     onEvent: (SignupEvents) -> Unit,
-    state: SignupState
+    state: SignupState,
+    viewModel: SignupViewModel
 ) {
 
     val focusManager = LocalFocusManager.current
@@ -120,6 +117,7 @@ fun SignupScreenComponent(
             .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
+        Spacer(modifier = Modifier.height(45.dp))
         Text(
             text = "Third Wave Chama",
             fontSize = 30.sp,
@@ -136,13 +134,13 @@ fun SignupScreenComponent(
             text = "Sign up here",
             fontSize = 20.sp
         )
-        Spacer(modifier = Modifier.height(10.dp))
-        OutlinedTextField(
-            value = state.username,
-            onValueChange = { onEvent(SignupEvents.OnUsernameChanged(it)) },
-            label = { Text(text = "Name")},
-            modifier = Modifier.fillMaxWidth(0.9f)
-        )
+//        Spacer(modifier = Modifier.height(10.dp))
+//        OutlinedTextField(
+//            value = state.username,
+//            onValueChange = { onEvent(SignupEvents.OnUsernameChanged(it)) },
+//            label = { Text(text = "Name")},
+//            modifier = Modifier.fillMaxWidth(0.9f)
+//        )
         Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
             value = state.firstName,
@@ -231,8 +229,10 @@ fun SignupScreenComponent(
 //            }
 //        }
         Spacer(modifier = Modifier.height(15.dp))
+        val myUser = MyUser(firstname = state.firstName, lastname = state.lastName, email = state.lastName, phoneNumber = state.phoneNumber, password = state.password)
         Button(
             onClick = {
+                viewModel.signup(myUser)
                 onEvent(SignupEvents.OnSignupClicked)
                 SignupUiEvents.NavigateToLogin
                       },
@@ -277,12 +277,12 @@ fun SignupScreenComponent(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun SignupScreenPreview() {
-    val context = LocalContext.current
-    SignupScreenComponent(
-        onEvent = {},
-        state = SignupState()
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun SignupScreenPreview() {
+//    val context = LocalContext.current
+//    SignupScreenComponent(
+//        onEvent = {},
+//        state = SignupState()
+//    )
+//}

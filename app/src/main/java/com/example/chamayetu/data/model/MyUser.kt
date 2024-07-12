@@ -1,8 +1,6 @@
 package com.example.chamayetu.data.model
 
 data class MyUser(
-    val id: Long? = null,
-    val username: String,
     val firstname: String,
     val lastname: String,
     val email: String,
