@@ -1,11 +1,11 @@
 package com.example.chamayetu.data.network
 
 data class SignupResponse(
-    val email: String,
-    val firstname: String,
     val id: Int,
-    val lastname: String,
-    val password: String,
+    val firstName: String,
+    val lastName: String,
     val phoneNumber: String,
+    val email: String,
+    val password: String,
     val role: String
 )

@@ -40,11 +40,11 @@ class SignupViewModel @Inject constructor(
 
 
     private val myUser: MyUser =  MyUser(
+        firstName = _state.value.firstName,
+        lastName = _state.value.lastName,
+        phoneNumber = _state.value.phoneNumber,
         email = _state.value.email,
-        password = _state.value.password,
-        firstname = _state.value.firstName,
-        lastname = _state.value.lastName,
-        phoneNumber = _state.value.phoneNumber
+        password = _state.value.password
     )
 
     fun signup(myUser: MyUser) {
