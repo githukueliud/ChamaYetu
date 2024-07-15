@@ -1,6 +1,7 @@
 package com.example.chamayetu.di
 
 import android.app.Application
+import android.content.Context
 import com.example.chamayetu.data.local.manager.LocalUserManagerImpl
 import com.example.chamayetu.data.network.ApiRepository
 import com.example.chamayetu.data.network.ApiRepositoryImpl
@@ -9,9 +10,11 @@ import com.example.chamayetu.domain.manager.LocalUserManager
 import com.example.chamayetu.domain.usecases.app_entry.AppEntryUseCases
 import com.example.chamayetu.domain.usecases.app_entry.ReadAppEntry
 import com.example.chamayetu.domain.usecases.app_entry.SaveAppEntry
+import com.example.chamayetu.presentation.login.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import javax.inject.Singleton
@@ -51,6 +54,16 @@ object AppModule {
     class ApiServiceModule {
         @Provides
         fun providesApiServices(retrofit: Retrofit): ApiServices = ApiServices.create(retrofit)
+    }
+
+
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(
+        @ApplicationContext context: Context
+    ): UserRepository {
+        return UserRepository(context)
     }
 
 }

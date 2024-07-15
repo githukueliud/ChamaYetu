@@ -64,6 +64,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     ChamaYetuTheme {
-        HomeScreen()
+        //HomeScreen()
     }
 }

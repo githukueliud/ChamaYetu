@@ -20,6 +20,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,14 +33,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.chamayetu.data.local.user.User
-import com.example.chamayetu.presentation.signup.SignupViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.firestore.toObject
-import kotlinx.coroutines.tasks.await
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -49,34 +42,28 @@ fun HomeScreen(
 ) {
 
 
+    val user = viewModel.user.collectAsState(initial = null).value
+
+    println("home screen view model ${user.toString()}")
     val getData = viewModel.state.value
-
-
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(25.dp))
         Text(
             text = "Third Wave Chama",
-            fontSize = 30.sp,
+            fontSize = 25.sp,
             fontWeight = FontWeight.SemiBold
-        )
-        Spacer(modifier =Modifier.height(5.dp))
-        Text(
-            text = "Every coin counts",
-            fontSize = 18.sp,
-            color = Color.Green
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = "Hi ${getData.username}!",
+            text = "Welcome ${user?.firstName}!",
             modifier = Modifier.fillMaxWidth(),
-            fontSize = 27.sp,
-            fontWeight = FontWeight.Bold
+            fontSize = 20.sp,
+            fontWeight = FontWeight.SemiBold
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
@@ -133,11 +120,6 @@ fun HomeScreen(
             Text(
                 text = "Activities",
                 fontSize = 20.sp
-            )
-            Text(
-                text = "+ Add New",
-                fontSize = 20.sp,
-                color = Color.Blue
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -253,8 +235,8 @@ fun HomeScreen(
 
 
 
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    HomeScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun HomeScreenPreview() {
+//    HomeScreen()
+//}

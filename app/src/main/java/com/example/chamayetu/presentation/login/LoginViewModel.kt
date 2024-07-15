@@ -3,6 +3,7 @@ package com.example.chamayetu.presentation.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chamayetu.data.network.RetrofitInstance
+import com.example.chamayetu.data.network.UserDto
 import com.example.chamayetu.data.repository.AuthRepository
 import com.example.chamayetu.data.repository.FormValidationRepository
 import com.example.chamayetu.presentation.navigation.Destinations
@@ -12,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -22,8 +24,12 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val formValidationRepository: FormValidationRepository
+    private val formValidationRepository: FormValidationRepository,
+    private val userRepository: UserRepository
 ): ViewModel() {
+
+    private var _user = MutableStateFlow<UserDto?>(null)
+    val user: StateFlow<UserDto?> get() = _user
 
     private val _state = MutableStateFlow(LoginState())
     val state = _state.asStateFlow()
@@ -53,11 +59,16 @@ class LoginViewModel @Inject constructor(
     }
 
 
+
+
     fun login(loginRequest: LoginRequest) {
         viewModelScope.launch(Dispatchers.IO) {
             val request = loginApi.userLogin(loginRequest)
             try {
                 if (request.isSuccessful) {
+                    val user = request.body()?.userDto!!
+                    println("login view model $user")
+                    userRepository.saveUser(user)
                     _eventFlow.emit(LoginUIEvents.NavigateToHome)
                 } else {
                     _eventFlow.emit(LoginUIEvents.ShowSnackBar("Login failed"))
@@ -67,6 +78,7 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
+
 
 
     private fun submitData() {
