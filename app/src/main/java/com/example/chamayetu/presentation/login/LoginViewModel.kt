@@ -2,6 +2,7 @@ package com.example.chamayetu.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.chamayetu.data.network.RetrofitInstance
 import com.example.chamayetu.data.repository.AuthRepository
 import com.example.chamayetu.data.repository.FormValidationRepository
 import com.example.chamayetu.presentation.navigation.Destinations
@@ -30,6 +31,8 @@ class LoginViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<LoginUIEvents>()
     val eventFlow = _eventFlow.asSharedFlow()
 
+    private val loginApi = RetrofitInstance.loginApi
+
     fun onEvent(event: LoginEvents) {
         when(event) {
             is LoginEvents.OnEmailChanged -> {
@@ -46,6 +49,22 @@ class LoginViewModel @Inject constructor(
                     _eventFlow.emit(LoginUIEvents.NavigateToSignup)
                 }
             } else -> {}
+        }
+    }
+
+
+    fun login(loginRequest: LoginRequest) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val request = loginApi.userLogin(loginRequest)
+            try {
+                if (request.isSuccessful) {
+                    _eventFlow.emit(LoginUIEvents.NavigateToHome)
+                } else {
+                    _eventFlow.emit(LoginUIEvents.ShowSnackBar("Login failed"))
+                }
+            } catch (e: Exception) {
+                _eventFlow.emit(LoginUIEvents.ShowSnackBar("Login failed"))
+            }
         }
     }
 
@@ -70,38 +89,13 @@ class LoginViewModel @Inject constructor(
             }
             return
         } else {
+
             login(
-                _state.value.email,
-                _state.value.password
+                LoginRequest(_state.value.email, _state.value.password)
             )
         }
     }
 
 
-    private fun login(email: String, password: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            authRepository.loginUser(email, password).collect {result ->
-                when(result) {
-                    is Resource.Error -> {
-                        _state.update { it.copy(loading = false) }
-                        _eventFlow.emit(LoginUIEvents.ShowSnackBar(result.message + "Error occurred when logging in"))
-                    }
-                    is Resource.Loading -> {
-                        _state.update { it.copy(loading = true) }
-                    }
-                    is Resource.Success -> {
-                        _state.update { it.copy(loading = false) }
-                        delay(3000)
-                        _eventFlow.emit(LoginUIEvents.ShowSnackBar("Success"))
-                        delay(1500)
-                        _eventFlow.emit(LoginUIEvents.NavigateToHome)
-                        Destinations.AppNavigation.route
-                    } else -> {
-                    _state.update { it.copy(loading = false) }
-                    _eventFlow.emit(LoginUIEvents.ShowSnackBar(result.message + "Error occurred when login in"))
-                }
-                }
-            }
-        }
-    }
+
 }

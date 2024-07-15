@@ -10,4 +10,7 @@ interface SignupApi {
 
     @POST("/auth/register")
     suspend fun signupUser(@Body myUser: MyUser): Response<SignupResponse>
+
+
+
 }

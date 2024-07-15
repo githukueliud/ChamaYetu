@@ -16,6 +16,7 @@ object RetrofitInstance {
             .build()
     }
 
-    val signupApi = getInstance().create(SignupApi::class.java)
+    val signupApi: SignupApi = getInstance().create(SignupApi::class.java)
+    val loginApi: LoginApi = getInstance().create(LoginApi::class.java)
 
 }

@@ -85,7 +85,8 @@ fun LoginScreen(
     LoginScreenComponent(
         state = state,
         onEvent = viewModel::onEvent,
-        modifier = Modifier
+        modifier = Modifier,
+        viewModel = viewModel
     )
 }
 
@@ -95,7 +96,8 @@ fun LoginScreen(
 fun LoginScreenComponent(
     modifier: Modifier = Modifier,
     state: LoginState,
-    onEvent: (LoginEvents) -> Unit
+    onEvent: (LoginEvents) -> Unit,
+    viewModel: LoginViewModel
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -190,8 +192,12 @@ fun LoginScreenComponent(
 //            }
 //        }
         Spacer(modifier = Modifier.height(20.dp))
+        val loginRequest = LoginRequest(email = state.email, password = state.password)
         Button(
-            onClick = { onEvent(LoginEvents.OnLoginClicked) },
+            onClick = {
+                viewModel.login(loginRequest)
+                //onEvent(LoginEvents.OnLoginClicked)
+                      },
             modifier = Modifier
                 .height(80.dp)
                 .width(250.dp),
@@ -233,8 +239,8 @@ fun LoginScreenComponent(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    LoginScreenComponent(state = LoginState(), onEvent = {})
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun LoginScreenPreview() {
+//    LoginScreenComponent(state = LoginState(), onEvent = {})
+//}
