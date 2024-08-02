@@ -20,6 +20,7 @@ import com.example.chamayetu.presentation.home.HomeScreen
 import com.example.chamayetu.presentation.bottomBar.bottomBarComponent.BottomNavigation
 import com.example.chamayetu.presentation.bottomBar.bottomBarComponent.BottomNavigationItem
 import com.example.chamayetu.presentation.navigation.Destinations
+import com.example.chamayetu.presentation.projects.ProjectsScreen
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,9 +29,9 @@ fun AppNavigator() {
     val bottomNavigationItems = remember {
         listOf(
             BottomNavigationItem(icon = R.drawable.ic_home, "Home"),
-            BottomNavigationItem(icon = R.drawable.ic_home, "Home"),
-            BottomNavigationItem(icon = R.drawable.ic_home, "Home"),
-            BottomNavigationItem(icon = R.drawable.ic_home, "Home")
+            BottomNavigationItem(icon = R.drawable.ic_home, "Projects"),
+            BottomNavigationItem(icon = R.drawable.ic_home, "News"),
+            BottomNavigationItem(icon = R.drawable.ic_home, "Profile")
         )
     }
 
@@ -44,7 +45,7 @@ fun AppNavigator() {
 
     selectedItem = when(backstackState?.destination?.route) {
         Destinations.HomeScreen.route -> 0
-        Destinations.HomeScreen.route -> 1
+        Destinations.ProjectsScreen.route -> 1
         Destinations.HomeScreen.route -> 2
         Destinations.HomeScreen.route -> 3
         else -> 0
@@ -64,7 +65,7 @@ fun AppNavigator() {
                         )
                         1 -> navigateToTab(
                             navController = navController,
-                            route = Destinations.HomeScreen.route
+                            route = Destinations.ProjectsScreen.route
                         )
                         2 -> navigateToTab(
                             navController = navController,
@@ -88,8 +89,8 @@ fun AppNavigator() {
             composable(route = Destinations.HomeScreen.route) {
                 HomeScreen()
             }
-            composable(route = Destinations.HomeScreen.route) {
-                HomeScreen()
+            composable(route = Destinations.ProjectsScreen.route) {
+                ProjectsScreen()
             }
             composable(route = Destinations.HomeScreen.route) {
                 HomeScreen()
@@ -107,12 +108,11 @@ fun AppNavigator() {
 
 private fun navigateToTab(navController: NavController, route: String) {
     navController.navigate(route) {
-        navController.graph.startDestinationRoute?. let {homeScreen ->
-            popUpTo(homeScreen) {
-                saveState = true
-            }
-            restoreState = true
-            launchSingleTop = true
+        popUpTo(navController.graph.startDestinationId) {
+            saveState = true
         }
+        restoreState = true
+        launchSingleTop = true
+
     }
 }

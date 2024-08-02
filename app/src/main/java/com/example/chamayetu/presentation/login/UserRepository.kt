@@ -6,7 +6,7 @@ import com.example.chamayetu.data.network.UserDto
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class UserRepository (private val context: Context) {
+class UserRepository(private val context: Context) {
 
     private val dataStore = context.dataStore
 

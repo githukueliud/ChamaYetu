@@ -54,8 +54,8 @@ fun LoansScreen(modifier: Modifier = Modifier) {
             onValueChange = {},
             leadingIcon = {
                 Text(
-                    text = "$",
-                    fontSize = 24.sp
+                    text = "Kes.",
+                    fontSize = 20.sp
                 )
             },
             label = { Text(text = "Enter amount") }
@@ -72,7 +72,7 @@ fun LoansScreen(modifier: Modifier = Modifier) {
             )
         ) {
             Text(
-                text = "Get a loan",
+                text = "Request a loan",
                 fontSize = 24.sp
             )
         }

@@ -1,7 +1,6 @@
 package com.example.chamayetu.di
 
-import com.example.chamayetu.data.repository.AuthRepository
-import com.example.chamayetu.data.repository.AuthRepositoryImpl
+
 import com.example.chamayetu.data.repository.DatabaseRepository
 import com.example.chamayetu.data.repository.DatabaseRepositoryImpl
 import com.example.chamayetu.data.repository.FormValidationRepository
@@ -30,17 +29,17 @@ object RepositoryModule {
     fun provideFormValidationRepository() = FormValidationRepository()
 
 
-    @Provides
-    @Singleton
-    fun providesFirebaseAuth() = FirebaseAuth.getInstance()
-
-
-
-    @Provides
-    @Singleton
-    fun provideAuthRepositoryImpl(firebaseAuth: FirebaseAuth): AuthRepository{
-        return AuthRepositoryImpl(firebaseAuth)
-    }
+//    @Provides
+//    @Singleton
+//    fun providesFirebaseAuth() = FirebaseAuth.getInstance()
+//
+//
+//
+//    @Provides
+//    @Singleton
+//    fun provideAuthRepositoryImpl(firebaseAuth: FirebaseAuth): AuthRepository{
+//        return AuthRepositoryImpl(firebaseAuth)
+//    }
 
 
     @Provides

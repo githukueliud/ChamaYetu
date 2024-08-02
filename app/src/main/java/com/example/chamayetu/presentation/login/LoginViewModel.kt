@@ -1,5 +1,6 @@
 package com.example.chamayetu.presentation.login
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chamayetu.data.network.RetrofitInstance
@@ -23,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
+    //private val authRepository: AuthRepository,
     private val formValidationRepository: FormValidationRepository,
     private val userRepository: UserRepository
 ): ViewModel() {
@@ -38,6 +39,7 @@ class LoginViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     private val loginApi = RetrofitInstance.loginApi
+
 
     fun onEvent(event: LoginEvents) {
         when(event) {
@@ -63,12 +65,16 @@ class LoginViewModel @Inject constructor(
 
     fun login(loginRequest: LoginRequest) {
         viewModelScope.launch(Dispatchers.IO) {
-            val request = loginApi.userLogin(loginRequest)
             try {
+                val request = loginApi.userLogin(loginRequest)
                 if (request.isSuccessful) {
                     val user = request.body()?.userDto!!
-                    println("login view model $user")
-                    userRepository.saveUser(user)
+                    val token = request.body()?.token // Get the token
+
+                    if (token != null) {
+                        // Set the token in RetrofitInstance
+                        RetrofitInstance.setToken(token)
+                    }
                     _eventFlow.emit(LoginUIEvents.NavigateToHome)
                 } else {
                     _eventFlow.emit(LoginUIEvents.ShowSnackBar("Login failed"))
@@ -78,6 +84,7 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
+
 
 
 
